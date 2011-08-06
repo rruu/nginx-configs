@@ -1,0 +1,38 @@
+server {
+	listen 80;
+	server_name www.static-sample.com;
+	rewrite ^/(.*) http://static-sample.com/$1 permanent;
+}
+
+server {
+	listen   80; ## listen for ipv4
+	server_name  static-sample.com;
+
+	access_log	/var/log/nginx/static-sample.com.access.log;
+	error_log	/var/log/nginx/static-sample.com.error.log;	
+
+	root   /srv/www/static-sample.com;	
+
+	location / {
+		index  index.html index.htm;
+		# If you need basic authentication, uncomment and edit the following 2 lines
+		# auth_basic	"Restricted";
+		# auth_basic_user_file /srv/www/static-sample.com/.htpasswd;
+	}
+
+	location ~* i.+\.(js|css|jpg|jpeg|gif|png)$ {
+		expires 7d;
+		access_log off;
+	}
+
+	error_page  404  /404.html;
+
+	# redirect server error pages to the static page /50x.html
+	error_page   500 502 503 504  /50x.html;
+	location = /50x.html {
+		root   /var/www/nginx-default;
+	}
+
+    include global/restrictions.conf;
+}
+
