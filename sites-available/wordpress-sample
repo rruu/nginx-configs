@@ -1,17 +1,17 @@
 server {
-    listen 80;
-    server_name www.wordpress-sample.com;
+    listen			80;
+    server_name		www.wordpress-sample.com;
     rewrite ^/(.*) http://wordpress-sample.com/$1 permanent;
 }
 
 server {
-	listen   80; ## listen for ipv4
-	server_name  wordpress-sample.com;
+	listen			80;
+	server_name		wordpress-sample.com;
 
-	access_log	/var/log/nginx/wordpress-sample.com.access.log;
-	error_log	/var/log/nginx/wordpress-sample.com.error.log;
+	access_log		/var/log/nginx/wordpress-sample.com.access.log;
+	error_log		/var/log/nginx/wordpress-sample.com.error.log;
 
-	root   /srv/www/wordpress-sample.com;
+	root			/var/www/wordpress-sample.com;
 
 	location / {
 		index  index.html index.htm index.php;
@@ -24,16 +24,14 @@ server {
 		}
 	}
 
-	include global/wordpress.supercache.conf;
-	include global/location-php.conf;
-    include global/restrictions.conf;
-
-	error_page 404 /index.php?q=$uri;
-
-    # redirect server error pages to the static page /50x.html
-    error_page   500 502 503 504  /50x.html;
+	error_page		404 /index.php?q=$uri;
+    error_page		500 502 503 504  /50x.html;
     location = /50x.html {
             root   /var/www/nginx-default;
     }
+
+	include global/wordpress.supercache.conf;
+	include global/location-php.conf;
+    include global/restrictions.conf;
 }
 

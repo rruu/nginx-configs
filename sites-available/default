@@ -1,15 +1,15 @@
 server {
-	server_name  localhost;
+	listen			80 default_server;
+	server_name		_;
 
-	access_log  off;
-
-	root   /var/www/nginx-default;
+	access_log		on;
+	error_log		on;
+	
+	root			/var/www/nginx-default;
 	
 	location / {
 		try_files $uri $uri/ /index.html;
 	}
-
-	error_page   500 502 503 504  /50x.html;
 
 	location /nginx_status {
                 stub_status on;
@@ -17,6 +17,9 @@ server {
                 allow 127.0.0.1;
                 deny all;
         }
+
+	error_page		500 502 503 504  /50x.html;
+
 	include global/restrictions.conf;
 }
 
